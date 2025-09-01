@@ -1,2 +1,2 @@
-# hackaterm
-The fallout terminal hacking mini-game written in Typescript / React
+# Hack-A-Term
+A Fallout Terminal Hacking mini-game written in Typescript / React
