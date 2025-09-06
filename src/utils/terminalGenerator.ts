@@ -17,14 +17,10 @@ export function generateTerminal(difficulty: Difficulty) {
   // Step 4: Insert words and brackets INTO the jumble (character-for-character replacement)
   const insertResult = insertIntoJumble(jumbleText, words, brackets);
 
-  // Step 5: Split into display lines
-  const terminalLines = splitToTerminal(insertResult.text); // 20 chars per line
-
     return {
         availableWords: words,
         clickableRegions: insertResult.clickableRegions,
         terminalText: insertResult.text,
-        terminalLines: terminalLines,
         password: words[Math.floor(Math.random() * words.length)]
   };
 }

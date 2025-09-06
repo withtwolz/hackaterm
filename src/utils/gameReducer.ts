@@ -6,7 +6,6 @@ import { generateTerminal } from "./terminalGenerator";
 //=============================
 
 export function gameLost(state: GameState): GameState {
-    // change view functionality
     return {
         ...state,
         currentLevel: 1,
