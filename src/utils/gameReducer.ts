@@ -32,8 +32,9 @@ export function gameStart(state: GameState, difficulty: Difficulty): GameState {
         loading: false,
         password: terminalData.password,
         logHistory: [],
+        highlightedText: state.highlightedText,
         selectedText: "",
-        terminalLines: terminalData.terminalLines,
+        terminalLines: state.terminalLines,
         terminalText: terminalData.terminalText,
         xp: state.xp
     }
@@ -55,7 +56,7 @@ export function highlightText(state: GameState, text: string): GameState {
     if (state.terminalText.indexOf(text) != -1){
         return {
             ...state,
-            selectedText: text
+            highlightedText: text
         }        
     }
     return {

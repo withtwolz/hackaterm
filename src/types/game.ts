@@ -9,6 +9,7 @@ export interface GameState {
   loading: boolean;
   password: string;
   logHistory: string[];
+  highlightedText: string;
   selectedText: string;
   terminalLines: string[];
   terminalText: string;

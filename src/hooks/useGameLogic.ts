@@ -13,6 +13,7 @@ const initialState: GameState = {
   loading: false,
   password: "",
   logHistory: [],
+  highlightedText: "",
   selectedText: "",
   terminalLines: [],
   terminalText: "",

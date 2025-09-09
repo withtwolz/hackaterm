@@ -1,3 +1,6 @@
+/* Global: consistent sizing */
+*, *::before, *::after { box-sizing: border-box; }
+
 #root {
   width: 100%;
   height: 100%;
@@ -11,12 +14,11 @@
   font-family: monospace;
   display: flex;
   height: 600px;
-  width: 800px;
+  width: 850px;
   background-color: #222;
   border: 20px double #444;
   border-radius: 45px;
   margin: 0 auto;
-  box-sizing: border-box;
   align-items: center;
   justify-content: center;
 }
@@ -26,48 +28,103 @@
   border-radius: 25px;
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   padding: 10px;
-  margin: 0 auto;
   color: #00b884ff;
   background-color: #222;
-  text-align: left;
 }
 
 #terminal-text {
-  background-color: #1A3222;
-  border-radius: 5px;
-  height: 100%;
+  background: #456652;
+  background: radial-gradient(circle,rgba(55, 89, 66, 1) 20%, rgba(26, 50, 34, 1) 80%, rgba(20, 38, 26, 1) 100%);
+  border-radius: 8px;
+  padding: 8px;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 8px;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  text-align: left;
 }
 
 #header {
-  padding: 1rem 0rem 0.25rem 1rem;
-  width: 100%;
+  padding: 1rem 0 0.25rem 1rem;
+  font-weight: bolder;
 }
 
 #attempts {
   padding: 0.25rem 1rem;
+  font-weight: bold;
 }
 
 #content-area {
+  display: grid;
+  grid-template-columns: 560px 200px;
+  grid-template-rows: 1fr auto;
+  gap: 8px;
+  min-height: 0;
+}
+
+/* Left (main jumble) */
+#jumble-text {
+  grid-column: 1;
+  grid-row: 1;
+  /* background-color: #000; */
+  padding: 10px;
+  overflow: auto;
   display: flex;
-  flex: 1;
-  justify-content: space-evenly;
+  flex-direction: column;
+  min-height: 0;
 }
 
-#main-text {
-  flex: 3;
-  padding: 1rem;
+#main-fill {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
+#fill-text {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.2;
+  padding: 2px;
+  flex: 1 1 auto;
+  cursor: pointer;
+}
+
+/* Right (sidebar) */
 #sidebar {
-  flex: 1;
-  height: 200px;
-  overflow-y: hidden;
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  /* background-color: #14261a; */
 }
 
 #sidebar-log {
-    align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+.log-line {
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#highlighted {
+  background: #003d2a;
+  padding: 6px 8px;
+  display: block;
+  align-self: stretch;
+  margin-top: 8px;
 }
