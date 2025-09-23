@@ -4,7 +4,7 @@ import type { Difficulty } from 'types/game';
 
 export function generateTerminal(difficulty: Difficulty) {
   // Step 1: Generate base jumble text (fixed total length)
-  const totalChars = 480; // 20 characters, 24 lines
+  const totalChars = 1000; // 20 characters, 50 lines
   const jumbleText = generateJumbleText(totalChars);
   
   // Step 2: Get word list
@@ -37,7 +37,7 @@ function generateJumbleText(totalChars: number): string {
 function generateWords(targetLength: number): string[] {
     const words: string[] = [];
   
-    while (words.length < 10) {
+    while (words.length < 16) {
       // Get individual words, not a sentence
       const word = faker.word.noun({length: targetLength, strategy: 'fail'}); 
       if (words.lastIndexOf(word) == -1){
@@ -85,7 +85,7 @@ function insertIntoJumble(jumble: string, words: string[], brackets: string[]): 
 } {
     const splitText = jumble.split('')
     const allItems = [...words, ...brackets];
-    const segSize = Math.floor(480 / allItems.length);
+    const segSize = Math.floor(1000 / allItems.length);
     let currentSegStart: number = 0;
     let clickableRegions: Array<{text: string, start: number, end: number, type: string}> = [];
 
@@ -112,12 +112,4 @@ function insertIntoPosition(textArray: string[], item: string, positon: number) 
     for (let i = 0; i < item.length; i++) {
         textArray[positon + i] = item[i]
     }
-}
-
-function splitToTerminal(jumble: string): string[] {
-    let splitArr: string[] = []
-    for (let i = 0; i < jumble.length; i += 20) {
-        splitArr.push(jumble.slice(i, i + 20))
-    }
-    return splitArr;
 }

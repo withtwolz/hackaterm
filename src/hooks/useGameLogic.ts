@@ -13,9 +13,7 @@ const initialState: GameState = {
   loading: false,
   password: "",
   logHistory: [],
-  highlightedText: "",
   selectedText: "",
-  terminalLines: [],
   terminalText: "",
   xp: 0
 }
@@ -24,20 +22,10 @@ export function useGameLogic(){
     const [state, dispatch] = useReducer(gameReducer, initialState);
 
     const actions = {
-        gameStart: (difficulty: Difficulty) => 
-            dispatch({type: "GAME START", difficulty}),
-        gameLost: () => 
-            dispatch({type: "GAME LOST"}),
-        levelWon: () => 
-            dispatch({type: "LEVEL WON"}),
-        highlightText: (text: string) => 
-            dispatch({type: "HIGHLIGHT TEXT", text}),
-        selectBrackets: (position: [number, number]) => 
-            dispatch({type: "SELECT BRACKETS", position}),
-        selectDifficulty: (difficulty: Difficulty) => 
-            dispatch({type: "SELECT DIFFICULTY", difficulty}),
-        selectText: (text: string) => 
-            dispatch({type: "SELECT TEXT", text})
+        gameStart: (difficulty: Difficulty) => dispatch({type: "GAME START", difficulty}),
+        selectBrackets: (position: [number, number]) => dispatch({type: "SELECT BRACKETS", position}),
+        selectDifficulty: (difficulty: Difficulty) => dispatch({type: "SELECT DIFFICULTY", difficulty}),
+        selectText: (text: string) => dispatch({type: "SELECT TEXT", text})
     }
 
     return {

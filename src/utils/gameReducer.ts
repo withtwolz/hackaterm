@@ -5,20 +5,6 @@ import { generateTerminal } from "./terminalGenerator";
 //======Functionalities========
 //=============================
 
-export function gameLost(state: GameState): GameState {
-    return {
-        ...state,
-        currentLevel: 1,
-        gameStatus: "GAME LOST",
-        hasUsedAttemptReset: false,
-        loading: false,
-        logHistory: [],
-        selectedText: "",
-        terminalLines: [],
-        terminalText: "THIS MACHINE HAS BEEN COMPROMISED/LOCKED. WILL REMAIN SECRETS. FIND ANOTHER MACHINE/RESTART?",
-        xp: 0
-    }
-};
 
 export function gameStart(state: GameState, difficulty: Difficulty): GameState {
     const terminalData = generateTerminal(difficulty)
@@ -32,59 +18,45 @@ export function gameStart(state: GameState, difficulty: Difficulty): GameState {
         loading: false,
         password: terminalData.password,
         logHistory: [],
-        highlightedText: state.highlightedText,
         selectedText: "",
-        terminalLines: state.terminalLines,
         terminalText: terminalData.terminalText,
         xp: state.xp
     }
 };
 
-export function levelWon(state: GameState): GameState {
-    let nextLevel = state.currentLevel + 1;
-    let isGameComplete = nextLevel > 14;
-    return {
-        ...state,
-        currentLevel: isGameComplete ? state.currentLevel : (nextLevel as Level),
-        gameStatus: isGameComplete ? "GAME WON" : "LEVEL WON",
-        xp: state.xp + 30
-    }
-};
-
-export function highlightText(state: GameState, text: string): GameState {
-    // User hovers over a character, word, or bracket set
-    if (state.terminalText.indexOf(text) != -1){
+export function selectText(state: GameState, text: string): GameState {
+    
+    if (text !== state.password) {
+        const attemptsLeft: number = state.attempts - 1;
+        const gameStatus: GameStatus = attemptsLeft <= 0 ? "GAME LOST" : state.gameStatus;
+        
         return {
             ...state,
-            highlightedText: text
-        }        
+            gameStatus: gameStatus,
+            attempts: attemptsLeft
+        };
     }
+    
+    const levelUp = (state.currentLevel + 1) as Level;
+    const gameStatus = levelUp >= 14 ? "GAME WON" : "LEVEL WON";
+    const xpUp = state.xp + 10;
+
     return {
-        ...state
-    }
+        ...state,
+        gameStatus: gameStatus,
+        currentLevel: levelUp,
+        xp: xpUp
+    };
 };
 
 export function selectBrackets(state: GameState, position: [number, number]): GameState {
+    const newTerminalText = state.terminalText.slice(position[0], position[1])
     return {
         ...state,
-        selectedText: state.terminalLines.slice(position[0], position[1]).join('\n')
+        selectedText: newTerminalText
     }
 };
 
-export function selectText(state: GameState, text: string): GameState {
-    let gameStatus: GameStatus = state.gameStatus; // Start with current status
-  
-    if (state.attempts === 0) {
-        gameStatus = "GAME LOST";
-    } else if (text === state.password) {
-        gameStatus = "LEVEL WON";
-    }
-    
-    return {
-        ...state,
-        gameStatus: gameStatus
-    }
-};
 
 //=============================
 //=====MAIN GAME REDUCER=======
@@ -92,28 +64,10 @@ export function selectText(state: GameState, text: string): GameState {
 
 export function gameReducer(state: GameState, action: GameAction): GameState {
     switch (action.type) {
-        case "GAME LOST":
-            return gameLost(state);
-        
-        case "GAME START":
-            return gameStart(state, action.difficulty);
-
-        case "LEVEL WON":
-            return levelWon(state);
-
-        case "HIGHLIGHT TEXT":
-            return highlightText(state, action.text);
-
-        case "SELECT BRACKETS":
-            return selectBrackets(state, action.position);
-
-        case "SELECT TEXT":
-            return selectText(state, action.text);
-        
-        case "SELECT DIFFICULTY":
-            return gameStart(state, action.difficulty);
-
-        default:
-            return state
+        case "GAME START": return gameStart(state, action.difficulty);
+        case "SELECT TEXT": return selectText(state, action.text);
+        case "SELECT BRACKETS": return selectBrackets(state, action.position);
+        case "SELECT DIFFICULTY": return gameStart(state, action.difficulty);
+        default: return state
     }
 }
