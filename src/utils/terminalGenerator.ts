@@ -10,13 +10,12 @@ export function generateTerminal(difficulty: Difficulty) {
   // Step 2: Get word list
   const wordLength = getWordDifficulty(difficulty);
   const words = generateWords(wordLength);
-  
+
   // Step 3: Get brackets
   const brackets = getBrackets(difficulty);
   
   // Step 4: Insert words and brackets INTO the jumble (character-for-character replacement)
   const insertResult = insertIntoJumble(jumbleText, words, brackets);
-
     return {
         availableWords: words,
         clickableRegions: insertResult.clickableRegions,
@@ -41,7 +40,7 @@ function generateWords(targetLength: number): string[] {
       // Get individual words, not a sentence
       const word = faker.word.noun({length: targetLength, strategy: 'fail'}); 
       if (words.lastIndexOf(word) == -1){
-          words.push(word);
+          words.push(word.toUpperCase());
       }
     }
 
@@ -83,8 +82,8 @@ function insertIntoJumble(jumble: string, words: string[], brackets: string[]): 
     "text": string,
     "clickableRegions": Array<{"text": string, "start": number, "end": number, "type":string}>
 } {
-    const splitText = jumble.split('')
-    const allItems = [...words, ...brackets];
+    const splitText = jumble.split('');
+    const allItems = shuffle([...words, ...brackets]);
     const segSize = Math.floor(1000 / allItems.length);
     let currentSegStart: number = 0;
     let clickableRegions: Array<{text: string, start: number, end: number, type: string}> = [];
@@ -112,4 +111,15 @@ function insertIntoPosition(textArray: string[], item: string, positon: number) 
     for (let i = 0; i < item.length; i++) {
         textArray[positon + i] = item[i]
     }
+}
+
+function shuffle(array: string[]) {
+  let currentIndex = array.length;
+
+  while (currentIndex != 0) {
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
 }

@@ -1,124 +1,145 @@
 /* Global: consistent sizing */
-*, *::before, *::after { box-sizing: border-box; }
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
 #root {
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  background-color: #000;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    background-color: #000;
+}
+
+h1 {
+    font-family: 'Helvetica', sans-serif;
+    font-weight: 800;
+    font-style: italic;
 }
 
 #outer-terminal {
-  font-family: monospace;
-  display: flex;
-  height: 600px;
-  width: 850px;
-  background-color: #222;
-  border: 20px double #444;
-  border-radius: 45px;
-  margin: 0 auto;
-  align-items: center;
-  justify-content: center;
+    font-family: monospace;
+    display: flex;
+    height: 600px;
+    width: 850px;
+    background-color: #222;
+    border: 20px double #444;
+    border-radius: 45px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
 }
 
 #inner-terminal {
-  border: 15px double #555;
-  border-radius: 25px;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  color: #00b884ff;
-  background-color: #222;
+    border: 15px double #555;
+    border-radius: 25px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    color: #00b884ff;
+    background-color: #222;
 }
 
 #terminal-text {
-  background: #456652;
-  background: radial-gradient(circle,rgba(55, 89, 66, 1) 20%, rgba(26, 50, 34, 1) 80%, rgba(20, 38, 26, 1) 100%);
-  border-radius: 8px;
-  padding: 8px;
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: 8px;
-  width: 100%;
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow: hidden;
-  text-align: left;
+    background: #456652;
+    background: radial-gradient(
+        circle,
+        rgba(55, 89, 66, 1) 20%,
+        rgba(26, 50, 34, 1) 80%,
+        rgba(20, 38, 26, 1) 100%
+    );
+    border-radius: 8px;
+    padding: 8px;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 8px;
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    text-align: left;
 }
 
 #header {
-  padding: 1rem 0 0.25rem 1rem;
-  font-weight: bolder;
+    padding: 1rem 0 0.25rem 1rem;
+    font-weight: bolder;
 }
 
-#attempts {
-  padding: 0.25rem 1rem;
-  font-weight: bold;
+#attempts,
+#level {
+    padding: 0.25rem 1rem;
+    font-weight: bold;
 }
 
 #content-area {
-  display: grid;
-  grid-template-columns: 560px 200px;
-  grid-template-rows: 1fr auto;
-  gap: 8px;
-  min-height: 0;
+    display: grid;
+    grid-template-columns: 560px 200px;
+    grid-template-rows: 1fr auto;
+    gap: 8px;
+    min-height: 0;
 }
 
 /* Left (main jumble) */
 #jumble-text {
-  grid-column: 1;
-  grid-row: 1;
-  /* background-color: #000; */
-  padding: 10px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
+    grid-column: 1;
+    grid-row: 1;
+    /* background-color: #000; */
+    padding: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
 }
 
 #fill-text {
-  margin: 0;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  flex: 1 1 auto;
-  height: 100%;
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    flex: 1 1 auto;
+    height: 100%;
 }
 
 /* Right (sidebar) */
 #sidebar {
-  grid-column: 2;
-  grid-row: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-  /* background-color: #14261a; */
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    /* background-color: #14261a; */
 }
 
 #sidebar-log {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  flex: 1 1 auto;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 1 1 auto;
+    width: 100%;
+}
+
+#hover-box {
+    background-color: rgb(0, 0, 0, 20%);
+    font: green;
 }
 
 .log-line {
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #highlighted {
-  background: #003d2a;
-  padding: 6px 8px;
-  display: block;
-  align-self: stretch;
-  margin-top: 8px;
+    background: #003d2a;
+    padding: 6px 8px;
+    display: block;
+    align-self: stretch;
+    margin-top: 8px;
 }

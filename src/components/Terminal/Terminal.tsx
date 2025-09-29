@@ -2,39 +2,42 @@ import { useGameLogic } from "@/hooks/useGameLogic";
 import { useEffect, useState } from "react";
 
 export function Terminal() {
-  const { state, gameStart, selectText } = useGameLogic();
-  const [hoveredRegion, setHoveredRegion] = useState<{start: number, end: number} | null>(null);
+  const { state, gameStart, selectText, selectBrackets } = useGameLogic();
+  const [hoveredRegion, setHoveredRegion] = useState<{start: number, end: number, text: string} | null>(null);
   // Immediately start game
   useEffect(() => {
-    if (state.gameStatus === "GAME START") {
-      gameStart(3);
-    }
+    if (state.gameStatus === "GAME START") {gameStart(3);}
   }, []);
 
   function handleCharacterClick(charIndex: number) {
     const region = state.clickableRegions?.find(region => 
       charIndex >= region.start && charIndex < region.end
     );
+
+    if (!region) {return;}
     
-    if (region && region.type === 'word') {
-      selectText(region.text);
+    switch(region.type){
+      case 'word': selectText(region.text); break;
+      case 'bracket': selectBrackets([region.start, region.end]);  break;
+      default: break;
     }
-  }
   
+  }
+
   function handleCharacterHover(charIndex: number) {
     const region = state.clickableRegions?.find(region => 
       charIndex >= region.start && charIndex < region.end
     );
     
-    setHoveredRegion(region ? { start: region.start, end: region.end } : null);
+    setHoveredRegion(region ? { start: region.start, end: region.end, text: region.text } : null);
   }
-  
+
   function shouldHighlight(charIndex: number): boolean {
     if (!hoveredRegion) return false;
 
     return charIndex >= hoveredRegion.start && charIndex < hoveredRegion.end;
   }
-  
+
   return (
     <div id="outer-terminal">
       <div id="inner-terminal">
@@ -44,6 +47,9 @@ export function Terminal() {
             WITHTWOLZ INDUSTRIES (TM) TERMINAL PROTOCOL
           </header>
 
+          <section id="level">
+            Level: {state.currentLevel}
+          </section>
           <section id="attempts">
             Attempts: {" ■ ".repeat(state.attempts)}
           </section>
@@ -57,7 +63,7 @@ export function Terminal() {
                     onClick={() => handleCharacterClick(index)}
                     onMouseEnter={() => handleCharacterHover(index)}
                     style={{ 
-                      cursor: 'pointer',
+                      cursor: shouldHighlight(index) ? 'pointer' : 'normal',
                       backgroundColor: shouldHighlight(index) ? 'rgba(0, 255, 0, 0.3)' : 'transparent'
                     }}
                   >
@@ -72,6 +78,9 @@ export function Terminal() {
                 {state.logHistory.map((line, i) => (
                   <div key={i} className="log-line">{line}</div>
                 ))}
+              </div>
+              <div id="hover-box">
+                &gt; {hoveredRegion ? hoveredRegion.text : ""}
               </div>
             </aside>
           </div>
