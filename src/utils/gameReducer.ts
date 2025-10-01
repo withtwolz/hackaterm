@@ -75,10 +75,15 @@ export function selectBrackets(state: GameState, position: [number, number]): Ga
 
     if (attemptReset === true){
         const newLogs: string[] = addLogs(["ATTEMPTS RESET"], [...state.logHistory]);
+        let newTerminalText: string = state.terminalText.substring(0, position[0]) + 
+            '.'.repeat(position[1] - position[0]) + 
+            state.terminalText.substring(position[1]);
         return {
             ...state,
             attempts: 4,
-            logHistory: newLogs
+            logHistory: newLogs,
+            hasUsedAttemptReset: true,
+            terminalText: newTerminalText
         }
     } else {
         const randomWord: string = state.availableWords[Math.floor(Math.random() * state.availableWords.length)];

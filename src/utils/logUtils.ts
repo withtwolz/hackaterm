@@ -9,6 +9,6 @@ export function calculateLikeness(selected_word: string, password: string): stri
     return `LIKENESS=${likeness.toString()}`;
 }
 
-export function addLogs(logs: string[], logHistory: string[], input: boolean = true): string[] {
+export function addLogs(logs: string[], logHistory: string[]): string[] {
     return [...logHistory, ...logs];
 }

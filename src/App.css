@@ -20,7 +20,7 @@ h1 {
     font-style: italic;
 }
 
-#outer-terminal {
+#terminal-frame {
     font-family: monospace;
     display: flex;
     height: 600px;
@@ -33,7 +33,7 @@ h1 {
     justify-content: center;
 }
 
-#inner-terminal {
+#terminal-inner-frame {
     border: 15px double #555;
     border-radius: 25px;
     width: 100%;
