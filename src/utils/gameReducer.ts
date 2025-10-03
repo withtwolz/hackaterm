@@ -39,7 +39,7 @@ export function selectText(state: GameState, selected_word: string): GameState {
             logHistory = addLogs(["TERMINAL LOCKED"], logHistory);
         } else {
             logHistory = addLogs(
-                [`> ${selected_word}`, "INCORRECT", calculateLikeness(selected_word, state.password)], 
+                [`> ${selected_word}`, "Entry Denied.", calculateLikeness(selected_word, state.password)], 
                 logHistory
             );
             textUpdate = textUpdate.replace(selected_word, '.'.repeat(selected_word.length));
@@ -59,7 +59,7 @@ export function selectText(state: GameState, selected_word: string): GameState {
     const levelUp = (state.currentLevel + 1) as Level;
     const gameStatus = levelUp >= 14 ? "GAME WON" : "LEVEL WON";
     const xpUp = state.xp + 10;
-    logHistory = addLogs(["ACCESS GRANTED"], []);
+    logHistory = addLogs(["Access granted."], []);
 
     return {
         ...state,
