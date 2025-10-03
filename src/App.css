@@ -18,6 +18,7 @@ h1 {
     font-family: 'Helvetica', sans-serif;
     font-weight: 800;
     font-style: italic;
+    text-shadow: 0 0 7px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00;
 }
 
 #terminal-frame {
@@ -25,16 +26,17 @@ h1 {
     display: flex;
     height: 600px;
     width: 850px;
-    background-color: #222;
-    border: 20px double #444;
+    background-color: #444;
+    border: 20px double #666;
     border-radius: 45px;
     margin: 0 auto;
     align-items: center;
     justify-content: center;
+    box-shadow: 0px -2px 2px #00ff00;
 }
 
 #terminal-inner-frame {
-    border: 15px double #555;
+    border: 15px double #444;
     border-radius: 25px;
     width: 100%;
     height: 100%;
