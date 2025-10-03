@@ -29,21 +29,22 @@ export function gameStart(state: GameState, difficulty: Difficulty): GameState {
 export function selectText(state: GameState, selected_word: string): GameState {
 
     let logHistory: string[] = [...state.logHistory];
+    let newClickableRegions = state.clickableRegions?.filter(region => region.text !== selected_word) || [];
     if (selected_word !== state.password) {
         const attemptsLeft: number = state.attempts - 1;
         const availableWords: string[] = [...state.availableWords].filter(word => word !== selected_word);
         const gameStatus: GameStatus = attemptsLeft <= 0 ? "GAME LOST" : state.gameStatus;
         let textUpdate: string = state.terminalText;
-        
+
         if (gameStatus === "GAME LOST"){
             logHistory = addLogs(["TERMINAL LOCKED"], logHistory);
+            newClickableRegions = [];
         } else {
             logHistory = addLogs(
                 [`> ${selected_word}`, "Entry Denied.", calculateLikeness(selected_word, state.password)], 
                 logHistory
             );
             textUpdate = textUpdate.replace(selected_word, '.'.repeat(selected_word.length));
-            console.log(`selected: ${selected_word}, ${textUpdate}`)
         }
 
         return {
@@ -52,7 +53,8 @@ export function selectText(state: GameState, selected_word: string): GameState {
             gameStatus: gameStatus,
             attempts: attemptsLeft,
             logHistory: logHistory,
-            terminalText: textUpdate
+            terminalText: textUpdate,
+            clickableRegions: newClickableRegions
         }
     }
     
@@ -72,32 +74,37 @@ export function selectText(state: GameState, selected_word: string): GameState {
 
 export function selectBrackets(state: GameState, position: [number, number]): GameState {
     const attemptReset: boolean = !state.hasUsedAttemptReset && Math.random() > 0.6;
-
-    if (attemptReset === true){
-        const newLogs: string[] = addLogs(["ATTEMPTS RESET"], [...state.logHistory]);
-        let newTerminalText: string = state.terminalText.substring(0, position[0]) + 
+    let newClickableRegions = (state.clickableRegions || []).filter(
+        region => !(region.start === position[0] && region.end === position[1])
+    );
+    let newTerminalText: string = state.terminalText.substring(0, position[0]) + 
             '.'.repeat(position[1] - position[0]) + 
             state.terminalText.substring(position[1]);
+    if (attemptReset === true){
+        const newLogs: string[] = addLogs(["ATTEMPTS RESET"], [...state.logHistory]);
+        
         return {
             ...state,
             attempts: 4,
             logHistory: newLogs,
             hasUsedAttemptReset: true,
-            terminalText: newTerminalText
+            terminalText: newTerminalText,
+            clickableRegions: newClickableRegions
         }
     } else {
         const randomWord: string = state.availableWords[Math.floor(Math.random() * state.availableWords.length)];
-        let newTerminalText: string = state.terminalText.substring(0, position[0]) + 
-            '.'.repeat(position[1] - position[0]) + 
-            state.terminalText.substring(position[1]);
         newTerminalText = newTerminalText.replace(randomWord, '.'.repeat(randomWord.length));
-        const newAvailableWords = [...state.availableWords].filter(word => word !== randomWord);
+        const newAvailableWords = state.availableWords.filter(word => word !== randomWord);
         const newLogs: string[] = addLogs(["DUD REMOVED"], [...state.logHistory]);
+        newClickableRegions = newClickableRegions.filter(
+            region => region.text !== randomWord
+)       ;
         return {
             ...state,
             availableWords: newAvailableWords,
             terminalText: newTerminalText,
-            logHistory: newLogs
+            logHistory: newLogs,
+            clickableRegions: newClickableRegions
         }
     }
 }
