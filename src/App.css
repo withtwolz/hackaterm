@@ -17,8 +17,21 @@
 h1 {
     font-family: 'Helvetica', sans-serif;
     font-weight: 800;
-    font-style: italic;
-    text-shadow: 0 0 7px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00;
+    padding: 5px;
+    text-shadow: -2px -2px #666;
+    color: #000;
+}
+
+#h1-box {
+    box-sizing: border-box;
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    padding: 0 4px;
+    background: linear-gradient(#999, #777);
+    border-radius: 5px;
+    box-shadow: 0 0 7px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00;
+    transform: skewX(-20deg);
 }
 
 #terminal-frame {

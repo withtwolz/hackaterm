@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   return (
     <div>
-      <h1>Fallout Terminal Hacking</h1>
+      <div id="h1-box"><h1>Fallout Terminal Hacking</h1></div>
       <Terminal />
     </div>
   );
