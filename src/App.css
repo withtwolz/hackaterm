@@ -16,22 +16,33 @@
 
 h1 {
     font-family: 'Helvetica', sans-serif;
-    font-weight: 800;
+    font-weight: 1000;
+    margin: -5px auto;
     padding: 5px;
-    text-shadow: -2px -2px #666;
-    color: #000;
+    text-shadow: -1px -2px #555;
+    color: #242826;
 }
 
 #h1-box {
     box-sizing: border-box;
     width: fit-content;
     height: fit-content;
-    margin: auto;
-    padding: 0 4px;
-    background: linear-gradient(#999, #777);
-    border-radius: 5px;
-    box-shadow: 0 0 7px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00;
-    transform: skewX(-20deg);
+    margin: 20px auto;
+    background-color: #c3ebab;
+    border-radius: 10px;
+    box-shadow: 0 0 7px #00b884ff, 0 0 10px #00b884ff, 0 0 20px #00b884ff;
+    transform: skewX(-15deg);
+    border: 3px solid #222;
+}
+
+a {
+    text-decoration: none;
+    color: #2c3832;
+    font-weight: 1000;
+}
+
+a:hover {
+    color: #00b884ff;
 }
 
 #terminal-frame {
@@ -45,7 +56,7 @@ h1 {
     margin: 0 auto;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px -2px 2px #00ff00;
+    box-shadow: 0px -2px 2px #00b884ff;
 }
 
 #terminal-inner-frame {
@@ -61,7 +72,6 @@ h1 {
 }
 
 #terminal-text {
-    background: #456652;
     background: radial-gradient(
         circle,
         rgba(55, 89, 66, 1) 20%,
@@ -103,21 +113,17 @@ h1 {
 #jumble-text {
     grid-column: 1;
     grid-row: 1;
-    /* background-color: #000; */
-    padding: 10px;
-    overflow: hidden;
+    margin: 10px;
+    overflow: clip;
     display: flex;
     flex-direction: column;
     min-height: 0;
 }
 
 #fill-text {
-    margin: 0;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-    flex: 1 1 auto;
-    height: 100%;
+    font-family: monospace;
+    word-break: break-all;
+    text-align: justify;
 }
 
 /* Right (sidebar) */
@@ -127,8 +133,8 @@ h1 {
     display: flex;
     flex-direction: column;
     min-height: 0;
+    margin: 10px;
     overflow: hidden;
-    /* background-color: #14261a; */
 }
 
 #sidebar-log {
@@ -137,11 +143,7 @@ h1 {
     justify-content: flex-end;
     flex: 1 1 auto;
     width: 100%;
-}
-
-#hover-box {
-    background-color: rgb(0, 0, 0, 20%);
-    font: green;
+    margin: 0 5px;
 }
 
 .log-line {
@@ -151,10 +153,20 @@ h1 {
     text-overflow: ellipsis;
 }
 
-#highlighted {
-    background: #003d2a;
-    padding: 6px 8px;
-    display: block;
-    align-self: stretch;
-    margin-top: 8px;
+#hover-box {
+    background-color: rgb(0, 0, 0, 20%);
+    font: green;
+    margin: 0 3px;
+}
+
+#controls-box {
+    height: 75px;
+    width: 600px;
+    margin: auto;
+    background: linear-gradient(#333, #111)
+    border: 3px solid #222;
+    border-radius: 0 0 10px 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 1 1;
 }

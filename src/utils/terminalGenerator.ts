@@ -16,10 +16,11 @@ export function generateTerminal(difficulty: Difficulty) {
   
   // Step 4: Insert words and brackets INTO the jumble (character-for-character replacement)
   const insertResult = insertIntoJumble(jumbleText, words, brackets);
-    return {
+  console.log(insertResult.text.length)
+  return {
         availableWords: words,
         clickableRegions: insertResult.clickableRegions,
-        terminalText: insertResult.text,
+        terminalText: insertResult.text, // insert some extra to fill
         password: words[Math.floor(Math.random() * words.length)]
   };
 }
@@ -103,8 +104,9 @@ function insertIntoJumble(jumble: string, words: string[], brackets: string[]): 
 
         currentSegStart = segEnd;
     }
+    let fillerText: string = generateJumbleText(1280 - splitText.length);
 
-    return {"text": splitText.join(''), clickableRegions};
+    return {"text": splitText.join('') + fillerText, clickableRegions};
 }
 
 function insertIntoPosition(textArray: string[], item: string, positon: number) {

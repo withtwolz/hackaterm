@@ -7,7 +7,7 @@ interface DisplayProps {
     shouldHighlight: (index: number) => boolean;
 }
 
-export function TerminalDisplay({terminalText, handleCharacterClick, handleCharacterHover, shouldHighlight}: DisplayProps) {
+export function TerminalJumbleText({terminalText, handleCharacterClick, handleCharacterHover, shouldHighlight}: DisplayProps) {
     return (
         <main id="jumble-text">
 			<div id="fill-text">
@@ -18,7 +18,9 @@ export function TerminalDisplay({terminalText, handleCharacterClick, handleChara
 						onMouseEnter={() => handleCharacterHover(index)}
 						style={{ 
 							cursor: shouldHighlight(index) ? 'pointer' : 'normal',
-							backgroundColor: shouldHighlight(index) ? 'rgba(0, 255, 0, 0.3)' : 'transparent'
+							backgroundColor: shouldHighlight(index) ? 'rgba(0, 255, 0, 0.3)' : 'transparent',
+							color: shouldHighlight(index) ? 'rgba(20, 38, 26, 1)' : '#00b884ff',
+							fontWeight: shouldHighlight(index) ? 'bold' : 'normal'
 						}}
 					>
 						{char}

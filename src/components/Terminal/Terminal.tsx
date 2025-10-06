@@ -2,7 +2,7 @@ import { useGameLogic } from "@/hooks/useGameLogic";
 import { useEffect, useState } from "react";
 import { TerminalSidebar } from "./TerminalSidebar";
 import { TerminalHeader } from "./TerminalHeader";
-import { TerminalDisplay } from "./TerminalDisplay";
+import { TerminalJumbleText } from "./TerminalJumbleText";
 
 export function Terminal() {
 	const { state, gameStart, selectText, selectBrackets } = useGameLogic();
@@ -42,30 +42,37 @@ export function Terminal() {
 	}
 
 	return (
-		<div id="terminal-frame">
-			<div id="terminal-inner-frame">
-				<div id="terminal-text">
+		<>
+			<div id="terminal-frame">
+				<div id="terminal-inner-frame">
+					<div id="terminal-text">
 
-					<TerminalHeader
-						attempts={state.attempts}
-						currentLevel={state.currentLevel}
-					/>
-
-					<div id="content-area">
-						<TerminalDisplay
-							terminalText={state.terminalText}
-							handleCharacterClick={handleCharacterClick}
-							handleCharacterHover={handleCharacterHover}
-							shouldHighlight={shouldHighlight}
+						<TerminalHeader
+							attempts={state.attempts}
+							currentLevel={state.currentLevel}
 						/>
 
-						<TerminalSidebar 
-							logHistory={state.logHistory} 
-							hoveredText={hoveredRegion?.text || null}
-						/>
+						<div id="content-area">
+							<TerminalJumbleText
+								terminalText={state.terminalText}
+								handleCharacterClick={handleCharacterClick}
+								handleCharacterHover={handleCharacterHover}
+								shouldHighlight={shouldHighlight}
+							/>
+
+							<TerminalSidebar 
+								logHistory={state.logHistory} 
+								hoveredText={hoveredRegion?.text || null}
+							/>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+			<div id="controls-box">
+				<div id="power"></div>
+				<div id="difficulty"></div>
+				<div id="reset"></div>
+			</div>
+		</>
 	);
 }
