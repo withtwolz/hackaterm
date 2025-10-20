@@ -19,7 +19,7 @@ export function TerminalJumbleText({terminalText, handleCharacterClick, handleCh
 						style={{ 
 							cursor: shouldHighlight(index) ? 'pointer' : 'normal',
 							backgroundColor: shouldHighlight(index) ? 'rgba(0, 255, 0, 0.3)' : 'transparent',
-							color: shouldHighlight(index) ? 'rgba(20, 38, 26, 1)' : '#00b884ff',
+							color: shouldHighlight(index) ? 'rgba(20, 38, 26, 1)' : '#00d297ff',
 							fontWeight: shouldHighlight(index) ? 'bold' : 'normal'
 						}}
 					>

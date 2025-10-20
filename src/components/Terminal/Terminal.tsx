@@ -1,16 +1,16 @@
 import { useGameLogic } from "@/hooks/useGameLogic";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TerminalSidebar } from "./TerminalSidebar";
 import { TerminalHeader } from "./TerminalHeader";
 import { TerminalJumbleText } from "./TerminalJumbleText";
+import { GameScreen } from "./gameScreen";
+import { useFadeIn } from "@/utils/animationUtils";
+import { animated } from "@react-spring/web";
 
 export function Terminal() {
 	const { state, gameStart, selectText, selectBrackets } = useGameLogic();
 	const [hoveredRegion, setHoveredRegion] = useState<{start: number, end: number, text: string} | null>(null);
-	// Immediately start game
-	useEffect(() => {
-		if (state.gameStatus === "GAME START") {gameStart(3);}
-	}, []);
+	const fadeIn = useFadeIn(250);
 
 	function handleCharacterClick(charIndex: number) {
 		const region = state.clickableRegions?.find(region => 
@@ -41,38 +41,90 @@ export function Terminal() {
 		return charIndex >= hoveredRegion.start && charIndex < hoveredRegion.end;
 	}
 
-	return (
-		<>
-			<div id="terminal-frame">
-				<div id="terminal-inner-frame">
-					<div id="terminal-text">
+	if (state.currentLevel === 0){
+		// MainMenu
+		return (
+			<GameScreen
+			title="Fallout Terminal Hacker"
+			subTitle="Hack Computer Terminals. See Fallout sign above terminal for help."
+			buttonText="START HACKING"
+			onButtonClick={() => gameStart(state.difficulty)}
+			screenColor="GREEN"
+			buttonColor="NEUTRAL"
+			/>
+		)
+	}
 
-						<TerminalHeader
-							attempts={state.attempts}
-							currentLevel={state.currentLevel}
-						/>
+	if (state.gameStatus === "GAME LOST") {
+		return (
+			<GameScreen 
+			title="TERMINAL LOCKED"
+			subTitle="try again hacker?"
+			buttonText="RETRY"
+			onButtonClick={() => gameStart(state.difficulty)}
+			screenColor="RED"
+			buttonColor="FAIL"
+			/>
+		)
+	} else if (state.gameStatus === "GAME WON") {
+		return (
+			<GameScreen 
+			title="GAME WON"
+			subTitle="You have unlocked the epstein files"
+			buttonText="PLAY AGAIN?"
+			onButtonClick={() => gameStart(state.difficulty)}
+			screenColor="GREEN"
+			buttonColor="NEUTRAL"
+			/>
+		)
+	} else if (state.gameStatus === "LEVEL WON") {
+		return (
+			<GameScreen 
+			title={`LEVEL ${state.currentLevel - 1} TERMINAL UNLOCKED`}
+			subTitle={`Only ${15 - state.currentLevel} levels to unlock the secrets`}
+			buttonText={`CONTINUE TO LEVEL ${state.currentLevel}`}
+			onButtonClick={() => gameStart(state.difficulty, state.currentLevel)}
+			screenColor="GREEN"
+			buttonColor="NEUTRAL"
+			/>
+		)
+	} else {
+	
+		return (
+			<>
+				<div id="terminal-frame">
+					<div id="terminal-inner-frame">
+						<animated.div id="terminal-text" style={fadeIn} key={state.currentLevel}>
 
-						<div id="content-area">
-							<TerminalJumbleText
-								terminalText={state.terminalText}
-								handleCharacterClick={handleCharacterClick}
-								handleCharacterHover={handleCharacterHover}
-								shouldHighlight={shouldHighlight}
+							<TerminalHeader
+								attempts={state.attempts}
+								currentLevel={state.currentLevel}
 							/>
 
-							<TerminalSidebar 
-								logHistory={state.logHistory} 
-								hoveredText={hoveredRegion?.text || null}
-							/>
-						</div>
+							<div id="content-area">
+								<TerminalJumbleText
+									terminalText={state.terminalText}
+									handleCharacterClick={handleCharacterClick}
+									handleCharacterHover={handleCharacterHover}
+									shouldHighlight={shouldHighlight}
+								/>
+
+								<TerminalSidebar 
+									logHistory={state.logHistory} 
+									hoveredText={hoveredRegion?.text || null}
+									debug={true}
+									password={state.password}
+								/>
+							</div>
+						</animated.div>
 					</div>
 				</div>
-			</div>
-			<div id="controls-box">
-				<div id="power"></div>
-				<div id="difficulty"></div>
-				<div id="reset"></div>
-			</div>
-		</>
-	);
+				<div id="controls-box">
+					<div id="power"></div>
+					<div id="difficulty"></div>
+					<div id="reset"></div>
+				</div>
+			</>
+		);
+	}
 }

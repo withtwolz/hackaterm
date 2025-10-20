@@ -3,9 +3,11 @@
 interface SidebarProps {
     logHistory: string[];
     hoveredText: string | null;
+    debug?: boolean | false;
+    password?: string | null;
 }
 
-export function TerminalSidebar({logHistory, hoveredText}: SidebarProps) {
+export function TerminalSidebar({logHistory, hoveredText, debug, password}: SidebarProps) {
     return (
         <aside id="sidebar">
             <div id="sidebar-log">
@@ -14,8 +16,13 @@ export function TerminalSidebar({logHistory, hoveredText}: SidebarProps) {
                 ))}
             </div>
             <div id="hover-box">
-                &gt; {hoveredText || ""}
+                 &gt; {hoveredText || ""}
             </div>
+            {debug && password && (
+                <div id="debug-box">
+                 &gt; DEBUG: {password}
+                </div>
+            )}
         </aside>
     )
 }

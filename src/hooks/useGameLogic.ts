@@ -1,4 +1,4 @@
-import type { Difficulty, GameState } from "@/types/game";
+import type { Difficulty, GameState, Level } from "@/types/game";
 import { gameReducer } from "@/utils/gameReducer";
 import { useReducer } from "react";
 
@@ -22,7 +22,7 @@ export function useGameLogic(){
     const [state, dispatch] = useReducer(gameReducer, initialState);
 
     const actions = {
-        gameStart: (difficulty: Difficulty) => dispatch({type: "GAME START", difficulty}),
+        gameStart: (difficulty: Difficulty, level?: Level) => dispatch({type: "GAME START", difficulty, level}),
         selectBrackets: (position: [number, number]) => dispatch({type: "SELECT BRACKETS", position}),
         selectDifficulty: (difficulty: Difficulty) => dispatch({type: "SELECT DIFFICULTY", difficulty}),
         selectText: (text: string) => dispatch({type: "SELECT TEXT", text})

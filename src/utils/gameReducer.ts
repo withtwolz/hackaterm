@@ -7,14 +7,14 @@ import { addLogs, calculateLikeness } from "./logUtils";
 //=============================
 
 
-export function gameStart(state: GameState, difficulty: Difficulty): GameState {
+export function gameStart(state: GameState, difficulty: Difficulty, level?: Level): GameState {
     const terminalData = generateTerminal(difficulty)
     return {
         attempts: 4,
         availableWords: terminalData.availableWords,
-        currentLevel: 1,
+        currentLevel: level ?? 1,
         difficulty: difficulty,
-        gameStatus: "IN_PROGRESS",
+        gameStatus: "IN PROGRESS",
         hasUsedAttemptReset: false,
         loading: false,
         password: terminalData.password,
@@ -35,6 +35,7 @@ export function selectText(state: GameState, selected_word: string): GameState {
         const availableWords: string[] = [...state.availableWords].filter(word => word !== selected_word);
         const gameStatus: GameStatus = attemptsLeft <= 0 ? "GAME LOST" : state.gameStatus;
         let textUpdate: string = state.terminalText;
+        console.log(`game state is ${gameStatus}`)
 
         if (gameStatus === "GAME LOST"){
             logHistory = addLogs(["TERMINAL LOCKED"], logHistory);
@@ -116,7 +117,7 @@ export function selectBrackets(state: GameState, position: [number, number]): Ga
 
 export function gameReducer(state: GameState, action: GameAction): GameState {
     switch (action.type) {
-        case "GAME START": return gameStart(state, action.difficulty);
+        case "GAME START": return gameStart(state, action.difficulty, action.level);
         case "SELECT TEXT": return selectText(state, action.text);
         case "SELECT BRACKETS": return selectBrackets(state, action.position);
         case "SELECT DIFFICULTY": return gameStart(state, action.difficulty);

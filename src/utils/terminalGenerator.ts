@@ -8,15 +8,14 @@ export function generateTerminal(difficulty: Difficulty) {
   const jumbleText = generateJumbleText(totalChars);
   
   // Step 2: Get word list
-  const wordLength = getWordDifficulty(difficulty);
-  const words = generateWords(wordLength);
+  const wordConfig = getTerminalDifficulty(difficulty);
+  const words = generateWords(wordConfig.count, wordConfig.length);
 
   // Step 3: Get brackets
   const brackets = getBrackets(difficulty);
   
   // Step 4: Insert words and brackets INTO the jumble (character-for-character replacement)
   const insertResult = insertIntoJumble(jumbleText, words, brackets);
-  console.log(insertResult.text.length)
   return {
         availableWords: words,
         clickableRegions: insertResult.clickableRegions,
@@ -34,18 +33,18 @@ function generateJumbleText(totalChars: number): string {
     return genText
 }
 
-function generateWords(targetLength: number): string[] {
-    const words: string[] = [];
+function generateWords(wordCount: number, wordLength: number): string[] {
+    const words = new Set<string>();
   
-    while (words.length < 16) {
+    while (words.size < wordCount) {
       // Get individual words, not a sentence
-      const word = faker.word.noun({length: targetLength, strategy: 'fail'}); 
-      if (words.lastIndexOf(word) == -1){
-          words.push(word.toUpperCase());
+      const word = faker.word.noun({length: wordLength, strategy: 'fail'}); 
+      if (!words.has(word.toUpperCase())){
+          words.add(word.toUpperCase());
       }
     }
 
-    return words;
+    return Array.from(words);
 }
 
 function getBrackets(difficulty: Difficulty): string[] {
@@ -69,13 +68,13 @@ function getBrackets(difficulty: Difficulty): string[] {
   return brackets;
 }
 
-function getWordDifficulty(difficulty: Difficulty): number {
+function getTerminalDifficulty(difficulty: Difficulty): {count: number, length: number} {
     switch (difficulty) {
-        case 1: return 5;
-        case 2: return 6;
-        case 3: return 7;
-        case 4: return 8;
-        case 5: return 10;
+        case 1: return {count: 10, length: 5};
+        case 2: return {count: 12, length: 6};
+        case 3: return {count: 14, length: 7};
+        case 4: return {count: 16, length: 8};
+        case 5: return {count: 18, length: 9};
     }
 }
 
