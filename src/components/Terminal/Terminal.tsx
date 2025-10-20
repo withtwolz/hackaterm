@@ -112,7 +112,7 @@ export function Terminal() {
 								<TerminalSidebar 
 									logHistory={state.logHistory} 
 									hoveredText={hoveredRegion?.text || null}
-									debug={true}
+									debug={false}
 									password={state.password}
 								/>
 							</div>
